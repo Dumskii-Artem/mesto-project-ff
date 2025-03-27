@@ -10,9 +10,15 @@
 </head>
 <body class="page">
 <div class="page__content">
+
   <header class="header page__section">
-    <img src="./images/logo.svg" alt="Логотип проекта масто" class="logo header__logo">
+    <img
+      src="<%=require('./images/logo.svg')%>"
+      alt="Логотип проекта место"
+      class="logo header__logo"
+    />
   </header>
+
   <main class="content">
     <section class="profile page__section">
       <div class="profile__image" style="background-image: url('./images/avatar.jpg');"></div>
@@ -65,8 +71,9 @@
     </div>
   </div>
 </div>
-<script src="./scripts/cards.js"></script>
-<script src="./scripts/index.js" defer></script>
+
+<!-- <script src="./scripts/cards.js"></script>
+<script src="./scripts/index.js" defer></script> -->
 
 <template id="card-template">
   <li class="places__item card">
