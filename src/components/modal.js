@@ -1,39 +1,48 @@
 export {
     closePopup,
-    setupCloseEvents,
-    showPopup
+    openPopup
 };
 
-function openPopup(popup) {
-    popup.classList.add("popup_is-opened");
-}
+export const setModalWindowEventListeners = (modalWindow) => {
+    // 1. Добавить модификатор popup_is-animated модальному окну 
+    modalWindow.classList.add("popup_is-animated");
 
-function closePopup() {
-    const popup = this.closest('.popup');
-    popup.classList.remove("popup_is-opened");
-}
+    // 2. Добавить обработчик события click на кнопку закрытия
+    const closeCross = modalWindow.querySelector('.popup__close');
+    closeCross.addEventListener('click', () => {closePopup(modalWindow);});
 
-function setupCloseEvents() {
-    document.addEventListener("click", (event) => {
-        if (event.target.classList.contains("popup_is-opened")) {
-            closePopup.call(event.target);
+    // 3. Добавить обработчик события для оверлея
+    // click мимо окна
+    modalWindow.addEventListener('click', (event) => { 
+        if (!event.target.classList.contains(".popup__content")) {
+            closePopup(event.target);
         }
     });
+};
 
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            const openedPopup = document.querySelector(".popup_is-opened");
-            if (openedPopup) closePopup.call(openedPopup);
-        }
-    });
-}
-
-function showPopup(popup, beforeFunction) {
+function openPopup(popup, beforeFunction) {
     if (beforeFunction !== null) {
         beforeFunction();
     }
-    openPopup(popup);
-    const closeCross = popup.querySelector('.popup__close');
-    closeCross.addEventListener('click', closePopup);
+    popup.classList.add("popup_is-opened");
+    document.addEventListener("keydown", handleEscClose);
 }
+
+function closePopup(popup) {
+    popup.classList.remove("popup_is-opened");
+    document.removeEventListener("keydown", handleEscClose);
+}
+
+function handleEscClose(event) {
+    if (event.key === "Escape") {
+        const openedPopup = document.querySelector(".popup_is-opened");
+        if (openedPopup) closePopup(openedPopup);
+    }
+}
+
+// выполняем при запуске !!!
+const popUps = document.querySelectorAll(".popup");
+popUps.forEach(setModalWindowEventListeners);
+
+
 
