@@ -40,9 +40,5 @@ function handleEscClose(event) {
     }
 }
 
-// выполняем при запуске !!!
-const popUps = document.querySelectorAll(".popup");
-popUps.forEach(setModalWindowEventListeners);
-
 
 

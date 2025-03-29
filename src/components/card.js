@@ -1,6 +1,5 @@
-export { renderCard };
+export { createCard };
 
-const placesList = document.querySelector('.places__list');
 const cardTemplate = document.querySelector('#card-template').content; 
 const elementForClone = cardTemplate.querySelector('.places__item');
 
@@ -31,27 +30,9 @@ function createCard({
     return cardElement;
 }
 
-function likeCard (likeButton) {
-    likeButton.classList.toggle("card__like-button_is-active");
-}
-
-function deleteCard(delButton) {
-    const listItem = delButton.closest('.card');
-    listItem.remove()    
-}
 
 
-function renderCard(item, onCardClick, method = "prepend") {
-    placesList[ method ](
-        createCard(
-            {
-                cardInit: item,
-                deleteFunction: deleteCard,
-                onCardClickFunction: onCardClick,
-                likeFunction: likeCard
-            }
-        )
-    );
-}
+
+
 
 

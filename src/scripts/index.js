@@ -1,7 +1,7 @@
 import "../pages/index.css";
 import { initialCards } from "../components/cards";
-import { closePopup, openPopup } from "../components/modal";
-import { renderCard } from "../components/card";
+import { closePopup, openPopup, setModalWindowEventListeners } from "../components/modal";
+import { createCard } from "../components/card";
 
 // EDIT PROFILE
 const formEditProfile = document.querySelector('[name="edit-profile"]')
@@ -20,9 +20,12 @@ const imagePopup =   document.querySelector('.popup_type_image');
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
+const placesList = document.querySelector('.places__list');
+
+
 // показать все карточки
 initialCards.forEach(function (cardInit) {
-    renderCard(cardInit, openCardPopup, "append");
+    renderCard(cardInit, "append");
 });
 
 const addButton =  document.querySelector('.profile__add-button');
@@ -32,6 +35,13 @@ addButton.addEventListener('click', () => openPopup(addPopup, null));
 const editButton =  document.querySelector('.profile__edit-button');
 const editPopup =   document.querySelector('.popup_type_edit');
 editButton.addEventListener('click', () => openPopup(editPopup, beforeEditPopupOpened));
+
+formNewPlace.addEventListener('submit', handleNewPlaceFormSubmit); 
+
+const popUps = document.querySelectorAll(".popup");
+popUps.forEach(setModalWindowEventListeners);
+
+
 
 function beforeEditPopupOpened() {
     nameInput.value = profileTitle.textContent;
@@ -47,24 +57,6 @@ function handleEditFormSubmit(evt) {
 
 formEditProfile.addEventListener('submit', handleEditFormSubmit); 
 
-
-function handleNewPlaceFormSubmit(evt) {
-    evt.preventDefault();
-
-    const newCard = {};
-    newCard.name = cardNameInput.value;
-    newCard.link =  urlInput.value
-    // по умолчанию, добавляет в начало списка
-    renderCard(newCard);
-
-    cardNameInput.value = '';
-    urlInput.value = '';
-
-    closePopup(addPopup);
-}
-
-formNewPlace.addEventListener('submit', handleNewPlaceFormSubmit); 
-
 function openCardPopup( title, link) {
     popupImage.src = link;
     popupImage.alt = title;
@@ -72,3 +64,41 @@ function openCardPopup( title, link) {
 
     openPopup(imagePopup, null);
 }
+
+function handleNewPlaceFormSubmit(evt) {
+    evt.preventDefault();
+
+    let newCard = {};
+    newCard.name = cardNameInput.value;
+    newCard.link =  urlInput.value
+    // по умолчанию, добавляет в начало списка
+    renderCard(newCard);
+
+    formNewPlace.reset();
+
+    closePopup(addPopup);
+}
+
+function renderCard(item, method = "prepend") {
+    placesList[ method ](
+        createCard(
+            {
+                cardInit: item,
+                deleteFunction : deleteCard,
+                onCardClickFunction: openCardPopup,
+                likeFunction: likeCard
+            }
+        )
+    );
+}
+
+function likeCard (likeButton) {
+    likeButton.classList.toggle("card__like-button_is-active");
+}
+
+function deleteCard(delButton) {
+    const listItem = delButton.closest('.card');
+    listItem.remove()    
+}
+
+
