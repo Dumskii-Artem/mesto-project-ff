@@ -4,35 +4,47 @@ const cardTemplate = document.querySelector('#card-template').content;
 const elementForClone = cardTemplate.querySelector('.places__item');
 
 function createCard({
-    cardInit, 
+    cardObject, 
     deleteFunction, 
     onCardClickFunction, 
-    likeFunction
+    likeFunction,
+    canDelete,
+    isLiked
     }
 ) {
     const cardElement = elementForClone.cloneNode(true);
-    cardElement.querySelector('.card__title').textContent = cardInit.name;
+    cardElement.querySelector('.card__title').textContent = cardObject.name;
     const cardImage = cardElement.querySelector('.card__image')
-    cardImage.src = cardInit.link;
-    cardImage.alt = cardInit.name;
+    cardImage.src = cardObject.link;
+    cardImage.alt = cardObject.name;
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', (event) => {
-        deleteFunction(event.target);
-    });
-
+    const likeCountElement = cardElement.querySelector('.card__like-count');
     const likeButton = cardElement.querySelector('.card__like-button');
-    likeButton.addEventListener('click', (event) => {
-        likeFunction(event.target);
+
+    likeCountElement.textContent = cardObject.likes.length;
+    if (isLiked) {
+        likeButton.classList.add("card__like-button_is-active");
+    }
+
+    if (canDelete) {
+        deleteButton.addEventListener('click', (event) => {
+            deleteFunction(event.target, cardObject._id);
+        });
+    }
+    else {
+        deleteButton.style.visibility = 'hidden';
+    }
+    
+    likeButton.addEventListener('click', () => {
+        likeFunction({
+            likeButton : likeButton,
+            likeCountElement : likeCountElement,
+            cardId: cardObject._id,
+            isLiked: likeButton.classList.contains("card__like-button_is-active")
+        });
     });
 
     cardImage.addEventListener('click', () =>
-        onCardClickFunction(cardInit.name, cardInit.link));
+        onCardClickFunction(cardObject.name, cardObject.link));
     return cardElement;
 }
-
-
-
-
-
-
-

@@ -22,11 +22,16 @@ export const setModalWindowEventListeners = (modalWindow) => {
 };
 
 function openPopup(popup, beforeFunction) {
+    // этот alert тоже работает
+ //   alert( '*** opened ***');
+   // console.log(popup);
     if (beforeFunction !== null) {
         beforeFunction();
     }
     popup.classList.add("popup_is-opened");
     document.addEventListener("keydown", handleEscClose);
+    // этот alert тоже работает
+ //   alert( '--- opened ---');
 }
 
 function closePopup(popup) {
