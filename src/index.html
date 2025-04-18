@@ -76,13 +76,13 @@
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="new-place" novalidate>
 
-        <input type="text" id="input_card-name" name="place-name"
+        <input type="text" id="input_card-name" name="new-place-name"
           class="popup__input popup__input_type_card-name" 
           placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯёЁ \-]+$"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
         <span class="popup__error input_card-name-error">Вы пропустили это поле.</span>
 
-        <input type="url" name="link" id="input_link"
+        <input type="url" name="new-card-url" id="input_link"
           class="popup__input popup__input_type_url"
           placeholder="Ссылка на картинку" required>
         <span class="popup__error input_link-error">Введите адрес сайта.</span>
@@ -97,7 +97,7 @@
       <h3 class="popup__title">Обновить аватар</h3>
       <form class="popup__form" name="avatar-image" novalidate>
 
-        <input type="url" name="link" id="input_avatar-image"
+        <input type="url" name="new-avatar-url" id="input_avatar-image"
           class="popup__input popup__input_type_url"
           placeholder="Ссылка на картинку" required>
         <span class="popup__error input_avatar-image-error">Введите адрес картинки.</span>
@@ -119,7 +119,9 @@
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Вы уверены?</h3>
-      <button type="button" class="button popup__button" id="confirm-card-delete">Да</button>
+      <form class="popup__form" name="delete-card" novalidate>
+        <button type="submit" class="button popup__button" id="confirm-card-delete">Да</button>
+      </form>
     </div>    
   </div>
 

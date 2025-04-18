@@ -37,7 +37,6 @@ function clearValidation(form, settings)
     setButtonState(form, submitButton, settings);
   
     inputsAll.forEach((input) => {
-        input.value = '';
         hideInputError(form, input, settings);
     });
 };
