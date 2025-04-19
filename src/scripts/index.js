@@ -97,11 +97,16 @@ function openCardPopup( title, link) {
     openPopup(imagePopup, null);
 }
 
-function handleNewPlaceFormSubmit(evt) {
-    evt.preventDefault();
+function handleNewPlaceFormSubmit(event) {
+    event.preventDefault();
 
     const newName = cardNameInput.value;
     const newLink = cardNewURLInput.value;
+
+    const submitButton = event.submitter;
+    const originalTextContent = submitButton.textContent;
+    submitButton.textContent = "Сохранение...";
+    submitButton.disabled = true;
 
     API_addOneMoreCard(secretConfig, newName, newLink)
         .then(newCardFromServer => {
@@ -112,15 +117,12 @@ function handleNewPlaceFormSubmit(evt) {
         })
         .finally (() => {
             formNewPlace.reset();
+            submitButton.textContent = originalTextContent;
+            submitButton.disabled = false; 
             closePopup(addPopup);
         })
 
 };
-
-// function toggleLikeHandler({ cardId, isLiked }) {
-//     API_setLikeCard(secretConfig, cardId, isLiked)
-
-// }
 
 function renderCard({ cardObject, canDelete = true, isLiked = false, method = "prepend" }) {
     placesList[method](
@@ -164,8 +166,13 @@ Promise.all([API_getUsersMe(secretConfig), API_getCards(secretConfig)])
         console.log(err);
     });
 
-function submitDeleteCard(evt, cardElement, cardId) {
-    evt.preventDefault();
+function submitDeleteCard(event, cardElement, cardId) {
+    event.preventDefault();
+
+    const submitButton = event.submitter;
+    const originalTextContent = submitButton.textContent;
+    submitButton.textContent = "Удаление...";
+    submitButton.disabled = true;
 
     API_deleteCard(secretConfig, cardId)
         .then(() => {
@@ -175,6 +182,8 @@ function submitDeleteCard(evt, cardElement, cardId) {
             console.error('Ошибка при удалении карточки:', err);
         })
         .finally (() => {
+            submitButton.textContent = originalTextContent;
+            submitButton.disabled = false;            
             closePopup(deleteCardPopup);
         });
 }
@@ -196,6 +205,11 @@ changeAvatarForm.addEventListener('submit', (event) => {
   
     const input = changeAvatarForm.querySelector('#input_avatar-image');
     const newAvatarUrl = input.value;
+
+    const submitButton = event.submitter;
+    const originalTextContent = submitButton.textContent;
+    submitButton.textContent = "Сохранение...";
+    submitButton.disabled = true;
   
     API_setAvatar(secretConfig, newAvatarUrl)
         .then((updatedUser) => {
@@ -206,15 +220,23 @@ changeAvatarForm.addEventListener('submit', (event) => {
         })
         .finally (() => {
             changeAvatarForm.reset();
+            submitButton.textContent = originalTextContent;
+            submitButton.disabled = false;
             closePopup(changeAvatarPopup);
         });
 });
 
-formEditProfile.addEventListener('submit', function (evt) {
-    evt.preventDefault();
+formEditProfile.addEventListener('submit', function (event) {
+    event.preventDefault();
     const newName = nameInput.value;
     const newJob = descriptionInput.value;
   
+    const submitButton = event.submitter;
+    const originalTextContent = submitButton.textContent;
+    submitButton.textContent = "Сохранение...";
+    submitButton.disabled = true;
+
+
     API_changeUserInfo(secretConfig, newName, newJob)
         .then((data) => {
             profileTitle.textContent = data.name;
@@ -224,6 +246,8 @@ formEditProfile.addEventListener('submit', function (evt) {
             console.error('Ошибка при обновлении профиля:', err);
         })
         .finally (() => {
+            submitButton.textContent = originalTextContent;
+            submitButton.disabled = false;
             closePopup(editPopup);
         });
 });
