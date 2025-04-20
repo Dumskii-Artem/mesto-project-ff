@@ -3,6 +3,7 @@ export {
     openPopup
 };
 
+
 export const setModalWindowEventListeners = (modalWindow) => {
     // 1. Добавить модификатор popup_is-animated модальному окну 
     modalWindow.classList.add("popup_is-animated");
