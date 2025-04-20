@@ -16,8 +16,9 @@ https://dumskii-artem.github.io/mesto-project-ff/
 Отдельный репозиторий, так как это разные проекты,
 В процессе обучения нельзя создавать новый репозиторий. 
 Работы на проверку (спринты 6 и 7) сдаются из репозитория 
-git@github.com:Dumskii-Artem/mesto-project-ff.git
-
+```
+git@github.com:*****/mesto-project-ff.git
+```
 
 https://git@github.com:Dumskii-Artem/mesto-project-API.git
 
